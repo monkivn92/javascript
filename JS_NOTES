@@ -1,0 +1,54 @@
+--- Trong khi .call(scope, arg1, arg2, arg3) nhận các tham số riêng lẻ cách nhau bởi dấu ,, còn .apply(scope, [arg1, arg2]) lại nhận một mảng.
+
+--- nav.addEventListener('click', toggleNav.bind(scope, arg1, arg2), false); 
++++ nav.addEventListener('click', toggleNav(arg1, arg2), false); => ham se thuc thi ngay lap tuc ma khong cho toi khi co event xay ra
+*** nav.addEventListener('click', function () { toggleNav(arg1, arg2); }, false); --> tao ra scope moi khong can thiet
+
+
+--- VAR vs LET
+
+	Sử dụng var:
+
+	function foo() {
+	   var x = 10;
+	   if (true) {
+	      var x = 20; // x ở đây cũng là x ở trên
+	      console.log(x); // in ra 20
+	   }
+	   console.log(x); // vẫn là 20
+	}
+	Sử dụng let:
+
+	function foo() {
+	   let x = 10;
+	   if (true) {
+	      let x = 20; // x này là x khác rồi đấy
+	      console.log(x); // in ra 20
+	   }
+	   console.log(x); // in ra 10
+	}
+	Ngoài ra, khi ở global scope (tức là không nằm trong một function nào cả), từ khóa var tạo ra thuộc tính mới cho global object (this), còn let thì không:
+
+	var x = 'global';
+	let y = 'global';
+	console.log(this.x); // "global"
+	console.log(this.y); // undefined
+
+--- 
+--- JavaScript defines seven built-in types:
+	• null
+	• undefined
+	• boolean
+	• number
+	• string
+	• object
+	• symbol—added in ES6!
+
+	All of these types except object are called “primitives.”
+
+--- Tất cả các kiểu primitive trong js đều là immutable.
+	Khi so sánh 2 biến có kiểu primitive với nhau thì chúng sẽ so sánh giá trị
+      Nhưng khi so sánh 2 kiểu object (không phải các kiểu primitive) thì chúng sẽ so sánh địa chỉ của 2 object đó với nhau
+
+
+
