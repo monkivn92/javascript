@@ -50,5 +50,133 @@
 	Khi so sánh 2 biến có kiểu primitive với nhau thì chúng sẽ so sánh giá trị
       Nhưng khi so sánh 2 kiểu object (không phải các kiểu primitive) thì chúng sẽ so sánh địa chỉ của 2 object đó với nhau
 
+	typeof undefined === "undefined"; // true
+	typeof true === "boolean"; // true
+	typeof 42 === "number"; // true
+	typeof "42" === "string"; // true
+	typeof { life: 42 } === "object"; // true
 
+	// added in ES6!
+	typeof Symbol() === "symbol"; // true
+
+	typeof null === "object"; // true
+
+	If you want to test for a null value using its type, you need a com‐
+	pound condition:
+	var a = null;
+	(!a && typeof a === "object"); // true
+
+	typeof function a(){ /* .. */ } === "function"; // true
+
+
+--- function a(b,c) { 	/* .. */ }
+	The function object has a length property set to the number of formal parameters it is declared with:
+	a.length; // 2
+	Since you declared the function with two formal named parameters
+	(b and c), the “length of the function” is 2.
+
+--- typeof [1,2,3] === "object"; // true
+
+--- An “undefined” variable is one that has been declared in the accessible scope, but at the moment has no other value in it. By contrast, an “undeclared” variable is one that has not been formally declared in the accessible scope.
+Consider:
+var a;
+a; // undefined
+b; // ReferenceError: b is not defined
+
+--- var a;
+	typeof a; // "undefined"
+	typeof b; // "undefined"
+
+--- // oops, this would throw an error!
+	if (DEBUG) {
+	  console.log( "Debugging is starting" );
+	}
+	// this is a safe existence check
+	if (typeof DEBUG !== "undefined") {
+	  console.log( "Debugging is starting" );
+	}
+
+	if (typeof atob === "undefined") {
+	  atob = function() { /*..*/ };
+	}
+
+--- DI style 
+
+	function doSomethingCool(FeatureXYZ) {
+		var helper = FeatureXYZ ||
+		function() { /*.. default feature ..*/ };
+		var val = helper();
+		// ..
+	}
+	But overall, it’s nice that the typeof undeclared safety guard gives us more options.
+
+--- return void setTimeout( doSomething,100 ); => void <something> return underfined value
+
+
+--- NaN is a very special value in that it’s never equal to another NaN value (i.e., it’s never equal to itself)
+
+if (!Number.isNaN) {
+	Number.isNaN = function(n) {
+		return (typeof n === "number" && window.isNaN( n ));
+	};
+}
+
+var a = 2 / "foo";
+var b = "foo";
+
+Number.isNaN( a ); // true
+Number.isNaN( b ); // false--phew!
+
+OR
+
+if (!Number.isNaN) {
+	Number.isNaN = function(n) {
+		return n !== n;
+	};
+}
+Weird, huh? But it works!
+
+--- There’s a pretty simple polyfill for Object.is(..) for pre-ES6 envi‐
+ronments:
+if (!Object.is) {
+	Object.is = function(v1, v2) {
+
+		// test for `-0`
+		if (v1 === 0 && v2 === 0) {
+			return 1 / v1 === 1 / v2;
+		}
+
+		// test for `NaN`
+		if (v1 !== v1) {
+			return v2 !== v2;
+		}
+
+		// everything else
+		return v1 === v2;
+	};
+}
+
+--- Simple values (aka scalar primitives) are always assigned/passed by value-copy: null, undefined, string, number, boolean, and ES6’s symbol.
+
+--- Compound values—objects (including arrays, and all boxed object wrappers) and functions—always create a copy of the reference on assignment or passing.
+
+
+--- Here’s a list of the most commonly used natives:
+• String()
+• Number()
+• Boolean()
+• Array()
+• Object()
+• Function()
+• RegExp()
+• Date()
+• Error()
+• Symbol()—added in ES6!
+As you can see, these natives are actually built-in functions
+
+--- Safely using implicit coercion
+• If either side of the comparison can have true or false values, don’t ever, EVER use ==.
+• If either side of the comparison can have [], "", or 0 values, seriously consider not using ==.
+• In these scenarios, it’s almost certainly better to use === instead of ==, to avoid unwanted coercion
+• https://dorey.github.io/JavaScript-Equality-Table/unified/
 
