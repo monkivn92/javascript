@@ -1,3 +1,6 @@
+--- In javascript only functions and global scope have a this.(objects don't have too)
+https://github.com/anirudh-modi/JS-essentials/blob/master/ES2015/Functions/Arrow%20functions.md#how-this-is-different-for-arrow-functions
+
 --- Trong khi .call(scope, arg1, arg2, arg3) nhận các tham số riêng lẻ cách nhau bởi dấu ,, còn .apply(scope, [arg1, arg2]) lại nhận một mảng.
 
 --- nav.addEventListener('click', toggleNav.bind(scope, arg1, arg2), false); 
@@ -179,4 +182,10 @@ As you can see, these natives are actually built-in functions
 • If either side of the comparison can have [], "", or 0 values, seriously consider not using ==.
 • In these scenarios, it’s almost certainly better to use === instead of ==, to avoid unwanted coercion
 • https://dorey.github.io/JavaScript-Equality-Table/unified/
+
+--- Think about what happens with a < b comparisons
+The algorithm first calls ToPrimitive coercion on both values, and
+if the return result of either call is not a string, then both values are
+coerced to number values using the ToNumber operation rules, and
+compared numerically. 
 
